@@ -20,7 +20,7 @@
     },
 
     css: function(styles) {
-      this.each(function() {
+      return this.each(function() {
         for (prop in styles) {
           this.style[prop] = styles[prop];
         }
