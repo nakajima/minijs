@@ -5,7 +5,8 @@ A small, jQuery-esque JavaScript library, ideally for mobile devices.
 Features:
 
 * No cross-browser compatibility (besides WebKit) means it's small.
-* Small and easy to understand.
+* Small (~2kb)
+* Easy to understand.
 * Easy to modify.
 
 TODO:
