@@ -1,0 +1,14 @@
+## miniJS [ALPHA] ##
+
+A small, jQuery-esque JavaScript library, ideally for mobile devices.
+
+Features:
+
+* No cross-browser compatibility (besides WebKit) means it's small.
+* Small and easy to understand.
+* Easy to modify.
+
+TODO:
+
+* AJAX needs more powers.
+* CSS animations [?]

@@ -1,0 +1,46 @@
+<html>
+  <head>
+    <style type="text/css" media="screen">
+      li { color: #aaa; }
+    </style>
+    <script src="/base.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/ajax.js" type="text/javascript" charset="utf-8"></script>
+  </head>
+  <body>
+    <h1>The Example Page</h1>
+    <ul>
+      <li>Hello</li>
+      <li>World</li>
+      <li class="last">Fizz Buzz</li>
+    </ul>
+
+    <label for="text">text</label><input type="text/submit/hidden/button" name="text" value="" id="text">
+
+    <div>
+      <h2>AJAX Tests</h2>
+      <ul id="ajaxes">
+        <li><a href="#" onclick="return getIt();">GET it.</a></li>
+        <li><a href="#" onclick="return postIt();">POST it.</a></li>
+      </ul>
+    </div>
+
+
+    <script type="text/javascript" charset="utf-8">
+      $('li').css({ color: '#0af' });
+      $('.last').css({ color: '#f10' });
+      function getIt() {
+        $.get("/get", function(data, transport) {
+          $('#ajaxes').append('<li> GET: ' + data + '</li>');
+        });
+        return false;
+      }
+
+      function postIt() {
+        $.post("/" + $('input').val(), function(data) {
+          $('#ajaxes').append('<li> POST: ' + data + '</li>');
+        });
+        return false;
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,73 @@
+<html>
+  <head>
+    <style type="text/css" media="screen">
+      li {
+        color: #aaa;
+      }
+    </style>
+    <script src="/base.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/ajax.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/test.js" type="text/javascript" charset="utf-8"></script>
+  </head>
+  <body>
+    <h1>The Test Page</h1>
+    <ul><li id="first" rel="HI">First</li><li>Second</li><li>Third</li></ul>
+    <div id="the-div"></div>
+    <input type="text" name="the-input" value="" id="the-input">
+    <textarea id="the-textarea"></textarea>
+    <script type="text/javascript" charset="utf-8">
+      before(function() {
+        $('#the-div').get().innerHTML = 'The Div';
+      });
+
+      test('size()', function() {
+        return $('li').size() == 3;
+      });
+
+      test('attr() set', function() {
+        $('li').attr('rel', 'OK');
+        return document.getElementById('first').getAttribute('rel') == 'OK';
+      });
+
+      test('attr() get', function() {
+        var rel = document.getElementById('first').getAttribute('rel')
+        return $('#first').attr('rel') == rel;
+      });
+
+      test('removeAttr()', function() {
+        $('#first').removeAttr('rel');
+        return $('#first').attr('rel') == undefined;
+      });
+
+      test('append()', function() {
+        $('#the-div').append("Hello");
+        return $('#the-div').get().innerHTML == 'The DivHello'
+      });
+
+      test('prepend()', function() {
+        $('#the-div').prepend("Hello");
+        return $('#the-div').get().innerHTML == 'HelloThe Div'
+      });
+
+      test('html(content)', function() {
+        $('#the-div').html('<p>Hello</p>');
+        return $('#the-div').get().innerHTML == '<p>Hello</p>'
+      });
+
+      test('html()', function() {
+        $('#the-div').html('<p>New Value</p>');
+        return $('#the-div').html() == '<p>New Value</p>';
+      });
+
+      test('val(content) [input]', function() {
+        $('#the-input').val('Hello!');
+        return $('#the-input').get(0).value == 'Hello!'
+      });
+
+      test('val() [input]', function() {
+        $('#the-input').val('Goodbye!');
+        return $('#the-input').val() == 'Goodbye!';
+      });
+    </script>
+  </body>
+</html>
