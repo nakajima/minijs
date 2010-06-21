@@ -3,7 +3,9 @@
   function each(collection, callback) {
     for (i in collection) {
       var item = collection[i];
-      callback.call(item, item);
+      if (collection.hasOwnProperty(i)) {
+        callback.call(item);
+      }
     }
   }
 
@@ -97,7 +99,7 @@
     var nodeSet = document.querySelectorAll(css);
     var nodes = [];
     var i = nodeSet.length;
-    while (i--) { nodes.push(nodeSet[i]); }
+    while (i--) { nodes.unshift(nodeSet[i]); }
     return new proxy(nodes);
   }
 

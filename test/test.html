@@ -68,6 +68,18 @@
         $('#the-input').val('Goodbye!');
         return $('#the-input').val() == 'Goodbye!';
       });
+
+      test('get() [without index, 1 element]', function() {
+        return $('#first').get() == document.getElementById('first');
+      });
+
+      // Hard to test yo
+      test('get() [without index, multiple elements]');
+
+      test('get() [with index]', function() {
+        return $('li').get(0) == document.getElementById('first');
+      });
+
     </script>
   </body>
 </html>
