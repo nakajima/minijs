@@ -12,15 +12,9 @@ function test(name, example) {
     return;
   }
 
-  try {
-    var passes = example()
-    if (passes) {
-      console.info('OK   ' + name);
-    } else {
-      console.info('FAIL ' + name);
-    }
-  } catch(e) {
+  try { example() ?
+    console.info('OK   ' + name) :
+    console.info('FAIL ' + name); } catch(e) {
     console.info('ERR  ' + e);
   }
-
 }
