@@ -16,6 +16,10 @@ get '/get' do
   "GOT IT!"
 end
 
+post '/' do
+  "Fill in text"
+end
+
 post '/:name' do
   "YOU POSTED #{params[:name]}"
 end
