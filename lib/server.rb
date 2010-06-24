@@ -8,6 +8,10 @@ get '/' do
   erb File.read("test/index.html")
 end
 
+get '/events' do
+  erb File.read("test/events.html")
+end
+
 get '/test' do
   erb File.read("test/test.html")
 end
@@ -22,4 +26,8 @@ end
 
 post '/:name' do
   "YOU POSTED #{params[:name]}"
+end
+
+get '/favicon.ico' do
+  # shut up
 end

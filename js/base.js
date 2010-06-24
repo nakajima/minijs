@@ -91,18 +91,24 @@
     }
   }
 
-  for (i in methods) {
+  each(methods, function() {
     proxy.prototype[i] = methods[i];
-  }
+  });
 
-  function $(css) {
-    var nodeSet = document.querySelectorAll(css);
-    var nodes = [];
-    var i = nodeSet.length;
-    while (i--) { nodes.unshift(nodeSet[i]); }
+  function $(cssOrElem) {
+    if (typeof cssOrElem == 'string') {
+      var nodeSet = document.querySelectorAll(cssOrElem);
+      var nodes = [];
+      var i = nodeSet.length;
+      while (i--) { nodes.unshift(nodeSet[i]); }
+    } else {
+      var nodes = [cssOrElem];
+    }
+
     return new proxy(nodes);
   }
 
   window.$ = $;
+  $.fn = proxy.prototype;
   $.each = each;
 })();
