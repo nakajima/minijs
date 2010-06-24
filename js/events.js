@@ -7,7 +7,7 @@
     return this.each(function() {
       var elem = this;
       elem.addEventListener(eventName, function(event) {
-        if (handler.call($(this), event) === false) {
+        if (handler.call($(elem), event) === false) {
           event.preventDefault();
         }
       }, true);
