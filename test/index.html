@@ -15,14 +15,6 @@
       <li class="last">Fizz Buzz</li>
     </ul>
 
-    <div>
-      <h3 id="text-to-toggle">Text To Toggle</h3>
-      <ul>
-        <li><a href="#hide">Hide</a></li>
-        <li><a href="#show">Show</a></li>
-      </ul>
-    </div>
-
     <label for="text">text</label><input type="text/submit/hidden/button" name="text" value="" id="text">
 
     <div>
@@ -52,16 +44,6 @@
         });
         return false;
       }
-
-      $('a[href="#hide"]').on('click', function() {
-        $('#text-to-toggle').hide();
-        return false;
-      });
-
-      $('a[href="#show"]').on('click', function() {
-        $('#text-to-toggle').show();
-        return false;
-      });
     </script>
   </body>
 </html>
