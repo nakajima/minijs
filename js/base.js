@@ -10,14 +10,17 @@
   }
 
   // Collection Proxy Stuff
-  var proxy = function(elems) {
+  var proxy = function(css, elems) {
+    this.selector = css;
     this.elems = elems;
     this.length = elems.length;
   }
 
   var methods = {
     each: function(callback) {
-      each(this.elems, callback)
+      this.elems.forEach(function(elem) {
+        callback.call(elem);
+      });
       return this;
     },
 
@@ -46,12 +49,39 @@
       });
     },
 
+    addClass: function(classNames) {
+      return this.each(function() {
+        var classes = this.className.split(/\s+/);
+        classes.push(classNames);
+        this.className = classes.join(' ');
+      });
+    },
+
+    removeClass: function(classNames) {
+      return this.each(function() {
+        var classes = this.className.split(/\s+/);
+        classNames = classNames.split(/\s+/);
+        classNames.forEach(function(s) {
+          delete(classes[classes.indexOf(s)]);
+        });
+        this.className = classes.join(' ');
+      });
+    },
+
+    is: function(selector) {
+      return this.get(0).webkitMatchesSelector(selector)
+    },
+
     get: function(index) {
       if (typeof index == "undefined") {
         return this.elems.length == 1 ? this.elems[0] : this.elems;
       } else {
         return this.elems[index];
       }
+    },
+
+    toArray: function() {
+      return this.elems;
     },
 
     size: function() {
@@ -98,14 +128,12 @@
   function $(cssOrElem) {
     if (typeof cssOrElem == 'string') {
       var nodeSet = document.querySelectorAll(cssOrElem);
-      var nodes = [];
-      var i = nodeSet.length;
-      while (i--) { nodes.unshift(nodeSet[i]); }
+      var nodes = Array.prototype.slice.apply(nodeSet);
     } else {
       var nodes = [cssOrElem];
     }
 
-    return new proxy(nodes);
+    return new proxy(cssOrElem, nodes);
   }
 
   window.$ = $;

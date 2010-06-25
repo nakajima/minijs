@@ -18,6 +18,7 @@
     <script type="text/javascript" charset="utf-8">
       before(function() {
         $('#the-div').get().innerHTML = 'The Div';
+        $('#first').removeClass('added');
       });
 
       test('size()', function() {
@@ -78,6 +79,21 @@
 
       test('get() [with index]', function() {
         return $('li').get(0) == document.getElementById('first');
+      });
+
+      test('is()', function() {
+        return $('#first').is('li');
+      });
+
+      test('addClass()', function() {
+        $('#first').addClass('added');
+        return $('#first').is('.added');
+      });
+
+      test('removeClass()', function() {
+        $('#first').addClass('added');
+        $('#first').removeClass('added');
+        return !$('#first').is('.added');
       });
 
     </script>

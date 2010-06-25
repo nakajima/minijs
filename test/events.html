@@ -12,16 +12,25 @@
       <a href="#clicked" id="clickable">Click Me</a>
     </p>
 
+    <ul>
+      <li><a href="#delegated" class="delegated-click">Delegated</a></li>
+      <li><a href="#" class="not-delegated">Not Delegated</a></li>
+    </ul>
+
     <label for="text">text</label><input name="text" value="" id="text">
 
-
     <script type="text/javascript" charset="utf-8">
-      $('#clickable').on('click', function(e) {
+      $('#clickable').live('click', function(e) {
         alert(this.html());
         return false;
       });
 
-      $('#text').on('change', function(e) {
+      $('.delegated-click').live('click', function() {
+        alert('Delegated!');
+        return false;
+      });
+
+      $('#text').on('keyup', function(e) {
         console.info('changed: ' + this.val());
       });
     </script>

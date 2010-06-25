@@ -5,6 +5,7 @@
     </style>
     <script src="/base.js" type="text/javascript" charset="utf-8"></script>
     <script src="/ajax.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/events.js" type="text/javascript" charset="utf-8"></script>
   </head>
   <body>
     <h1>The Example Page</h1>
@@ -14,25 +15,35 @@
       <li class="last">Fizz Buzz</li>
     </ul>
 
+    <div>
+      <h3 id="text-to-toggle">Text To Toggle</h3>
+      <ul>
+        <li><a href="#hide">Hide</a></li>
+        <li><a href="#show">Show</a></li>
+      </ul>
+    </div>
+
     <label for="text">text</label><input type="text/submit/hidden/button" name="text" value="" id="text">
 
     <div>
       <h2>AJAX Tests</h2>
       <ul id="ajaxes">
-        <li><a href="#" onclick="return getIt();">GET it.</a></li>
-        <li><a href="#" onclick="return postIt();">POST it.</a></li>
+        <li><a href="#get">GET it.</a></li>
+        <li><a href="#posts">POST it.</a></li>
       </ul>
     </div>
-
 
     <script type="text/javascript" charset="utf-8">
       $('li').css({ color: '#0af' });
       $('.last').css({ color: '#f10' });
+
+      $('a[href="#get"]').on('click', getIt);
+      $('a[href="#posts"]').on('click', postIt);
+
       function getIt() {
         $.get("/get", function(data, transport) {
           $('#ajaxes').append('<li> GET: ' + data + '</li>');
         });
-        return false;
       }
 
       function postIt() {
@@ -41,6 +52,16 @@
         });
         return false;
       }
+
+      $('a[href="#hide"]').on('click', function() {
+        $('#text-to-toggle').hide();
+        return false;
+      });
+
+      $('a[href="#show"]').on('click', function() {
+        $('#text-to-toggle').show();
+        return false;
+      });
     </script>
   </body>
 </html>
