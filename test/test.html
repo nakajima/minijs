@@ -1,20 +1,41 @@
 <html>
   <head>
     <style type="text/css" media="screen">
-      li {
-        color: #aaa;
-      }
+    body {
+      font-family: Bitstream Vera Sans Mono;
+    }
+    ul {
+      padding: 0;
+    }
+    li {
+      color: #000;
+      list-style: none;
+      padding: 3px;
+      margin-bottom: 1px;
+      cursor: pointer;
+    }
+    li pre { display: none; }
+    li.show pre { display: block; margin: 3px; background: #eee; padding: 3px; }
+    .OK { background: #80FF66; }
+    .ERR { background: #FF6966; }
+    .PEND { background: #eee; color: #aaa; }
+    .FAIL { background: #FF6966; }
     </style>
     <script src="/base.js" type="text/javascript" charset="utf-8"></script>
     <script src="/ajax.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/events.js" type="text/javascript" charset="utf-8"></script>
     <script src="/test.js" type="text/javascript" charset="utf-8"></script>
   </head>
   <body>
     <h1>The Test Page</h1>
-    <ul><li id="first" rel="HI">First</li><li>Second</li><li>Third</li></ul>
-    <div id="the-div"></div>
-    <input type="text" name="the-input" value="" id="the-input">
-    <textarea id="the-textarea"></textarea>
+    <div style="display:none">
+      <ul><li id="first" rel="HI">First</li><li>Second</li><li>Third</li></ul>
+      <div id="the-div"></div>
+      <input type="text" name="the-input" value="" id="the-input">
+      <textarea id="the-textarea"></textarea>
+    </div>
+
+    <ul id="results"></ul>
     <script type="text/javascript" charset="utf-8">
       before(function() {
         $('#the-div').get().innerHTML = 'The Div';

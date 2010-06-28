@@ -68,6 +68,18 @@
       });
     },
 
+    hasClass: function(name) {
+      return this.get(0).className.split(/\s+/).indexOf(name) > -1;
+    },
+
+    toggleClass: function(name) {
+      if (this.hasClass(name)) {
+        this.removeClass(name);
+      } else {
+        this.addClass(name);
+      }
+    },
+
     is: function(selector) {
       return this.get(0).webkitMatchesSelector(selector)
     },
