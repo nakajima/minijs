@@ -117,6 +117,28 @@
         return !$('#first').is('.added');
       });
 
+      test('hasClass() when has class', function() {
+        $('#first').addClass('added');
+        return $('#first').hasClass('added');
+      });
+
+      test('hasClass() when does not have class', function() {
+        $('#first').removeClass('added');
+        return ! $('#first').hasClass('added');
+      });
+
+      test('toggleClass() when does not have class', function() {
+        if ($('#first').hasClass('added')) { throw("already has class") }
+        $('#first').toggleClass('added');
+        return $('#first').hasClass('added');
+      });
+
+      test('toggleClass() when has class', function() {
+        $('#first').addClass('added');
+        if (!$('#first').hasClass('added')) { throw("already has class") }
+        $('#first').toggleClass('added');
+        return !$('#first').hasClass('added');
+      });
     </script>
   </body>
 </html>
