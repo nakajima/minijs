@@ -1,80 +1,193 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
-	<title>nakajima/minijs @ GitHub</title>
-	
-	<style type="text/css">
-		body {
-  		margin-top: 1.0em;
-  		background-color: #315776;
-		  font-family: "Helvetica,Arial,FreeSans";
-  		color: #ffffff;
+<html>
+  <head>
+    <style type="text/css" media="screen">
+    body {
+      font-family: Bitstream Vera Sans Mono;
     }
-    #container {
-      margin: 0 auto;
-      width: 700px;
+    ul {
+      padding: 0;
     }
-		h1 { font-size: 3.8em; color: #cea889; margin-bottom: 3px; }
-		h1 .small { font-size: 0.4em; }
-		h1 a { text-decoration: none }
-		h2 { font-size: 1.5em; color: #cea889; }
-    h3 { text-align: center; color: #cea889; }
-    a { color: #cea889; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    .download { float: right; }
-		pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-	</style>
-	
-</head>
+    li {
+      color: #000;
+      list-style: none;
+      padding: 3px;
+      margin-bottom: 1px;
+      cursor: pointer;
+    }
+    li pre { display: none; }
+    li.show pre { display: block; margin: 3px; background: #eee; padding: 3px; }
+    .OK { background: #80FF66; }
+    .ERR { background: #FDFF66; }
+    .PEND { background: #eee; color: #aaa; }
+    .FAIL { background: #FF6966; }
+    </style>
+<script type="text/javascript" charset="utf-8">
+  (function(){function each(collection,callback){for(i in collection){var item=collection[i];if(collection.hasOwnProperty(i)){callback.call(item);}}}
+  var proxy=function(css,elems){this.selector=css;this.elems=elems;this.length=elems.length;}
+  var methods={each:function(callback){this.elems.forEach(function(elem){callback.call(elem);});return this;},css:function(styles){return this.each(function(){for(prop in styles){this.style[prop]=styles[prop];}});},attr:function(){var prop=arguments[0],value=arguments[1];if(value){return this.each(function(){this.setAttribute(prop,value);});}else{return this.get().getAttribute(prop);}},removeAttr:function(prop){return this.each(function(){this.removeAttribute(prop);});},addClass:function(classNames){return this.each(function(){var classes=this.className.split(/\s+/);classes.push(classNames);this.className=classes.join(' ');});},removeClass:function(classNames){return this.each(function(){var classes=this.className.split(/\s+/);classNames=classNames.split(/\s+/);classNames.forEach(function(s){delete(classes[classes.indexOf(s)]);});this.className=classes.join(' ');});},hasClass:function(name){return this.get(0).className.split(/\s+/).indexOf(name)>-1;},toggleClass:function(name){if(this.hasClass(name)){this.removeClass(name);}else{this.addClass(name);}},is:function(selector){return this.get(0).webkitMatchesSelector(selector)},get:function(index){if(typeof index=="undefined"){return this.elems.length==1?this.elems[0]:this.elems;}else{return this.elems[index];}},toArray:function(){return this.elems;},size:function(){return this.elems.length;},prepend:function(content){return this.each(function(){this.innerHTML=content+this.innerHTML;});},append:function(content){return this.each(function(){this.innerHTML=this.innerHTML+content;});},html:function(content){if(content){return this.each(function(){this.innerHTML=content;});}else{return this.get(0).innerHTML;}},val:function(content){if(content){return this.each(function(){this.value=content;});}else{return this.get(0).value;}}}
+  each(methods,function(){proxy.prototype[i]=methods[i];});function $(cssOrElem){if(typeof cssOrElem=='string'){var nodeSet=document.querySelectorAll(cssOrElem);var nodes=Array.prototype.slice.apply(nodeSet);}else{var nodes=[cssOrElem];}
+  return new proxy(cssOrElem,nodes);}
+  window.$=$;$.fn=proxy.prototype;$.each=each;})();(function(){if(typeof $=='undefined'){throw("You must load base.js first!")}
+  function request(method,url,callback){var request=new XMLHttpRequest();request.open(method,url);request.onreadystatechange=function(){if(request.readyState==4){callback(request.responseText,request)}}
+  request.send();}
+  function get(url,callback){request('GET',url,callback);}
+  function post(url,callback){request('POST',url,callback);}
+  $.get=get;$.post=post;})();(function(){if(typeof $=='undefined'){throw("You must load base.js first!")}
+  var delegators={};$.fn.on=function(eventName,handler){return this.each(function(){var elem=this;elem.addEventListener(eventName,function(event){if(handler.call($(elem),event)===false){event.preventDefault();}},true);});}
+  $.fn.live=function(eventName,handler){$.delegate(eventName,this.selector,handler);}
+  $.delegate=function(eventName,css,handler){if(!delegators[eventName]){delegators[eventName]=[];document.addEventListener(eventName,function(event){$.each(delegators[eventName],function(){this.call(this,event);});},false)}
+  delegators[eventName].push(function(event){var elem=event.target;if($(elem).is(css)){if(handler.call($(elem),event)===false){event.preventDefault();}}});}})();
+  $CALLBACKS = { before: [], after: [] }
 
-<body>
-  <a href="http://github.com/nakajima/minijs"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+  function escapeHTML(string) {
+    return string.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
 
-  <div id="container">
+  function result(name, text, example) {
+    example = example || function() { }
+    $('#results').append('<li class=' + name + '>' + text +
+      '<pre>' + escapeHTML(example.toString()) + '</pre>' +
+    '</li>')
+  }
 
-    <div class="download">
-      <a href="http://github.com/nakajima/minijs/zipball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
-      <a href="http://github.com/nakajima/minijs/tarball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
-    </div>
+  function before(callback) {
+    $CALLBACKS.before.push(callback)
+  }
 
-    <h1><a href="http://github.com/nakajima/minijs">minijs</a>
-      <span class="small">by <a href="http://github.com/nakajima">nakajima</a></span></h1>
+  function test(name, example) {
+    $.each($CALLBACKS.before, function() { this(); });
 
-    <div class="description">
-      A small, jQuery-esque JavaScript library
-    </div>
+    if (!example) {
+      result('PEND', 'PENDING: ' + name, example);
+      return;
+    }
 
-    <h2>Authors</h2>
-<p>Pat Nakajima (patnakajima@gmail.com)<br/><br/>      </p>
-<h2>Contact</h2>
-<p>Pat Nakajima (patnakajima@gmail.com)<br/>      </p>
+    try { example() ?
+      result('OK', name, example) :
+      result('FAIL', name, example); } catch(e) {
+      result('ERR', e, example);
+    }
+  }
 
-
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="http://github.com/nakajima/minijs/zipball/master">zip</a> or
-      <a href="http://github.com/nakajima/minijs/tarball/master">tar</a> formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/nakajima/minijs</pre>
-    </p>
-
-    <div class="footer">
-      get the source code on GitHub : <a href="http://github.com/nakajima/minijs">nakajima/minijs</a>
-    </div>
-
-  </div>
-
+  $.delegate('click', 'li', function() {
+    this.toggleClass('show');
+  });
   
-</body>
+</script>
+  </head>
+  <body>
+    <h1>The Test Page</h1>
+    <div style="display:none">
+      <ul><li id="first" rel="HI">First</li><li>Second</li><li>Third</li></ul>
+      <div id="the-div"></div>
+      <input type="text" name="the-input" value="" id="the-input">
+      <textarea id="the-textarea"></textarea>
+    </div>
+
+    <ul id="results"></ul>
+    <script type="text/javascript" charset="utf-8">
+      before(function() {
+        $('#the-div').get().innerHTML = 'The Div';
+        $('#first').removeClass('added');
+      });
+
+      test('size()', function() {
+        return $('li').size() == 3;
+      });
+
+      test('attr() set', function() {
+        $('li').attr('rel', 'OK');
+        return document.getElementById('first').getAttribute('rel') == 'OK';
+      });
+
+      test('attr() get', function() {
+        var rel = document.getElementById('first').getAttribute('rel')
+        return $('#first').attr('rel') == rel;
+      });
+
+      test('removeAttr()', function() {
+        $('#first').removeAttr('rel');
+        return $('#first').attr('rel') == undefined;
+      });
+
+      test('append()', function() {
+        $('#the-div').append("Hello");
+        return $('#the-div').get().innerHTML == 'The DivHello'
+      });
+
+      test('prepend()', function() {
+        $('#the-div').prepend("Hello");
+        return $('#the-div').get().innerHTML == 'HelloThe Div'
+      });
+
+      test('html(content)', function() {
+        $('#the-div').html('<p>Hello</p>');
+        return $('#the-div').get().innerHTML == '<p>Hello</p>'
+      });
+
+      test('html()', function() {
+        $('#the-div').html('<p>New Value</p>');
+        return $('#the-div').html() == '<p>New Value</p>';
+      });
+
+      test('val(content) [input]', function() {
+        $('#the-input').val('Hello!');
+        return $('#the-input').get(0).value == 'Hello!'
+      });
+
+      test('val() [input]', function() {
+        $('#the-input').val('Goodbye!');
+        return $('#the-input').val() == 'Goodbye!';
+      });
+
+      test('get() [without index, 1 element]', function() {
+        return $('#first').get() == document.getElementById('first');
+      });
+
+      // Hard to test yo
+      test('get() [without index, multiple elements]');
+
+      test('get() [with index]', function() {
+        return $('li').get(0) == document.getElementById('first');
+      });
+
+      test('is()', function() {
+        return $('#first').is('li');
+      });
+
+      test('addClass()', function() {
+        $('#first').addClass('added');
+        return $('#first').is('.added');
+      });
+
+      test('removeClass()', function() {
+        $('#first').addClass('added');
+        $('#first').removeClass('added');
+        return !$('#first').is('.added');
+      });
+
+      test('hasClass() when has class', function() {
+        $('#first').addClass('added');
+        return $('#first').hasClass('added');
+      });
+
+      test('hasClass() when does not have class', function() {
+        $('#first').removeClass('added');
+        return ! $('#first').hasClass('added');
+      });
+
+      test('toggleClass() when does not have class', function() {
+        if ($('#first').hasClass('added')) { throw("already has class") }
+        $('#first').toggleClass('added');
+        return $('#first').hasClass('added');
+      });
+
+      test('toggleClass() when has class', function() {
+        $('#first').addClass('added');
+        if (!$('#first').hasClass('added')) { throw("already has class") }
+        $('#first').toggleClass('added');
+        return !$('#first').hasClass('added');
+      });
+    </script>
+  </body>
 </html>
